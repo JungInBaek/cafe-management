@@ -11,8 +11,8 @@ import vo.MemberVO;
 public class MemberDAO {
 	
 	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	private String id = "scott";
-	private String pw = "tiger";	
+	private String id = "cafe";
+	private String pw = "1234";	
 	
 	public MemberVO getMemberId(String memberId) {
 		String sql = "SELECT id FROM member WHERE id = ?";
