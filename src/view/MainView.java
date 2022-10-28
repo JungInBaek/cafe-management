@@ -8,7 +8,7 @@ import javax.swing.JButton;
 
 public class MainView {
 	
-	public static void main(String[] args) {
+	public void open() {
 		JFrame f = new JFrame();
 		f.setSize(800, 800);
 		f.getContentPane().setLayout(null);

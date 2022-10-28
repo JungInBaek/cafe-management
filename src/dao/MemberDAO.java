@@ -10,26 +10,47 @@ import vo.MemberVO;
 
 public class MemberDAO {
 	
-	private String url = "jdbc:oracle:thin:@localhost:1521:xe";
-	private String id = "cafe";
-	private String pw = "1234";	
+	private String dbUrl = "jdbc:oracle:thin:@localhost:1521:xe";
+	private String dbId = "cafe";
+	private String dbPw = "1234";
 	
-	public MemberVO getMemberId(String memberId) {
-		String sql = "SELECT id FROM member WHERE id = ?";
+	public void add(MemberVO vo) {
+		String sql = "INSERT INTO member VALUES (?, ?, ?, ?, ?)";
 		
-		MemberVO vo = new MemberVO();
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection conn = DriverManager.getConnection(url, id, pw);
+			Connection conn = DriverManager.getConnection(dbUrl, dbId, dbPw);
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, memberId);
+			pstmt.setString(1, vo.getId());
+			pstmt.setString(2, vo.getPw());
+			pstmt.setString(3, vo.getName());
+			pstmt.setString(4, vo.getTel());
+			pstmt.setString(5, vo.getRole().toString());
+			
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+			conn.close();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public MemberVO getMemberId(String id) {
+		String sql = "SELECT id FROM member WHERE id = ?";
+		
+		MemberVO member = new MemberVO();
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+			Connection conn = DriverManager.getConnection(dbUrl, dbId, dbPw);
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, id);
 			
 			ResultSet rs = pstmt.executeQuery();
 			if(rs.next()) {
-				vo = new MemberVO();
-				vo.setId(rs.getString("id"));
-			} else {
-				vo.setId("null");
+				member.setId(rs.getString("id"));
 			}
 			
 			rs.close();
@@ -41,24 +62,27 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 		
-		return vo;
+		return member;
 	}
-
-	public void add(MemberVO member) {
-		String sql = "INSERT INTO member VALUES (?, ?, ?, ?, ?)";
+	
+	public MemberVO getMemberIdPw(MemberVO vo) {
+		String sql = "SELECT id, pw FROM member WHERE id = ? and pw = ?";
 		
+		MemberVO member = new MemberVO();
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection conn = DriverManager.getConnection(url, id, pw);
+			Connection conn = DriverManager.getConnection(dbUrl, dbId, dbPw);
 			PreparedStatement pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, member.getId());
-			pstmt.setString(2, member.getPw());
-			pstmt.setString(3, member.getName());
-			pstmt.setString(4, member.getTel());
-			pstmt.setString(5, member.getRole().toString());
+			pstmt.setString(1, vo.getId());
+			pstmt.setString(2, vo.getPw());
 			
-			pstmt.executeUpdate();
+			ResultSet rs = pstmt.executeQuery();
+			if(rs.next()) {
+				member.setId(rs.getString("id"));
+				member.setPw(rs.getString("pw"));
+			}
 			
+			rs.close();
 			pstmt.close();
 			conn.close();
 		} catch (ClassNotFoundException e) {
@@ -66,5 +90,7 @@ public class MemberDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		return member;
 	}
 }

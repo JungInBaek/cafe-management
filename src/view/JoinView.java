@@ -27,12 +27,12 @@ import java.awt.event.ActionEvent;
 
 public class JoinView {
 	
-	MemberDAO memberDAO = new MemberDAO();
+	private MemberDAO memberDAO = new MemberDAO();
 	
-	boolean idCheck = false;
-	boolean pwCheck = false;
-	boolean nameCheck = false;
-	boolean telCheck = false;
+	private boolean idCheck = false;
+	private boolean pwCheck = false;
+	private boolean nameCheck = false;
+	private boolean telCheck = false;
 
 	public void open() {
 		
@@ -231,23 +231,23 @@ public class JoinView {
 		JButton idCheckBtn = new JButton("중복확인");
 		idCheckBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String idText = idTextField.getText();
-				String lowerId = idText.toLowerCase();
-				MemberVO member = memberDAO.getMemberId(idText);
+				String id = idTextField.getText();
+				String lowerId = id.toLowerCase();
+				MemberVO member = memberDAO.getMemberId(id);
 				
-				if(idText == null || idText.trim().isEmpty()) {
+				if(id == null || id.trim().isEmpty()) {
 					idCheck = false;
 					idTextField.setBorder(redBorder);
 					JOptionPane.showMessageDialog(f, "아이디를 입력해주세요.");
-				} else if(idText.contains(" ")) {
+				} else if(id.contains(" ")) {
 					idCheck = false;
 					idTextField.setBorder(redBorder);
 					JOptionPane.showMessageDialog(f, "공백을 제거해주세요.");
-				} else if(!idText.equals(lowerId)) {
+				} else if(!id.equals(lowerId)) {
 					idCheck = false;
 					idTextField.setBorder(redBorder);
 					JOptionPane.showMessageDialog(f, "소문자만 입력가능합니다.");
-				} else if(idText.equals(member.getId())) {
+				} else if(id.equals(member.getId())) {
 					idCheck = false;
 					idTextField.setBorder(redBorder);
 					JOptionPane.showMessageDialog(f, "중복된 아이디입니다.");
@@ -275,14 +275,14 @@ public class JoinView {
 				} else if(telCheck == false) {
 					JOptionPane.showMessageDialog(f, "전화번호를 확인해주세요.");
 				} else {
-					MemberVO member = new MemberVO();
-					member.setId(idTextField.getText());
-					member.setPw(new String(pwField1.getPassword()));
-					member.setName(nameTextField.getText());
-					member.setTel(telTextField.getText());
-					member.setRole(Role.CLIENT);
+					MemberVO vo = new MemberVO();
+					vo.setId(idTextField.getText());
+					vo.setPw(new String(pwField1.getPassword()));
+					vo.setName(nameTextField.getText());
+					vo.setTel(telTextField.getText());
+					vo.setRole(Role.CLIENT);
 					
-					memberDAO.add(member);
+					memberDAO.add(vo);
 					
 					f.dispose();
 				}
