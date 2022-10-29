@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import constant.Role;
 import vo.MemberVO;
 
 public class MemberDAO {
@@ -14,6 +15,7 @@ public class MemberDAO {
 	private String dbId = "cafe";
 	private String dbPw = "1234";
 	
+	// member 추가
 	public void add(MemberVO vo) {
 		String sql = "INSERT INTO member VALUES (?, ?, ?, ?, ?)";
 		
@@ -38,7 +40,8 @@ public class MemberDAO {
 		}
 	}
 	
-	public MemberVO getMemberId(String id) {
+	// id로 id만 조회
+	public MemberVO getIdById(String id) {
 		String sql = "SELECT id FROM member WHERE id = ?";
 		
 		MemberVO member = new MemberVO();
@@ -65,8 +68,9 @@ public class MemberDAO {
 		return member;
 	}
 	
-	public MemberVO getMemberIdPw(MemberVO vo) {
-		String sql = "SELECT id, pw FROM member WHERE id = ? and pw = ?";
+	// id, pw로 member 조회
+	public MemberVO getMemberByIdPw(MemberVO vo) {
+		String sql = "SELECT * FROM member WHERE id = ? and pw = ?";
 		
 		MemberVO member = new MemberVO();
 		try {
@@ -80,6 +84,13 @@ public class MemberDAO {
 			if(rs.next()) {
 				member.setId(rs.getString("id"));
 				member.setPw(rs.getString("pw"));
+				member.setName(rs.getString("name"));
+				member.setTel(rs.getString("tel"));
+				if(rs.getString("rol").equals(Role.STAFF.name())) {
+					member.setRole(Role.STAFF);
+				} else {
+					member.setRole(Role.CLIENT);
+				}
 			}
 			
 			rs.close();
@@ -93,4 +104,6 @@ public class MemberDAO {
 		
 		return member;
 	}
+	
+	
 }

@@ -6,7 +6,7 @@ import java.awt.Font;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
-public class MainView {
+public class StaffMainView {
 	
 	public void open() {
 		JFrame f = new JFrame();

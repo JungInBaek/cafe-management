@@ -67,11 +67,14 @@ public class LoginView {
 				vo.setId(id);
 				vo.setPw(pw);
 				
-				MemberVO member = memberDAO.getMemberIdPw(vo);
+				MemberVO member = memberDAO.getMemberByIdPw(vo);
 				if(member.getId() == null || member.getPw() == null) {
 					JOptionPane.showMessageDialog(f, "아이디, 비밀번호를 확인해주세요.");
-				}else if(id.equals(member.getId()) && pw.equals(member.getPw())) {
-					MainView mainView = new MainView();
+				} else if(id.equals(member.getId()) && pw.equals(member.getPw()) && member.getRole() == Role.STAFF) {
+					StaffMainView mainView = new StaffMainView();
+					mainView.open();
+				} else if(id.equals(member.getId()) && pw.equals(member.getPw()) && member.getRole() == Role.CLIENT) {
+					ClientMainView mainView = new ClientMainView();
 					mainView.open();
 				}
 			}
