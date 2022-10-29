@@ -233,7 +233,7 @@ public class JoinView {
 			public void actionPerformed(ActionEvent e) {
 				String id = idTextField.getText();
 				String lowerId = id.toLowerCase();
-				MemberVO member = memberDAO.getMemberId(id);
+				MemberVO member = memberDAO.getIdById(id);
 				
 				if(id == null || id.trim().isEmpty()) {
 					idCheck = false;
