@@ -105,5 +105,4 @@ public class MemberDAO {
 		return member;
 	}
 	
-	
 }
