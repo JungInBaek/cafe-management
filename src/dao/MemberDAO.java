@@ -13,7 +13,7 @@ public class MemberDAO {
 	
 	private String dbUrl = "jdbc:oracle:thin:@localhost:1521:xe";
 	private String dbId = "cafe";
-	private String dbPw = "1234";
+	private String dbPw = "1527";
 	
 	// member 추가
 	public void add(MemberVO vo) {
